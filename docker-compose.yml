@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./api-gateway:/app
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - auth-service
+      - player-service
+      - training-service
+      - match-service
+      - schedule-service
+
+  # 👇 Placeholder services for your future microservices
+  auth-service:
+    image: python:3.11-slim
+    command: ["sleep", "infinity"]
+
+  player-service:
+    image: mcr.microsoft.com/dotnet/aspnet:8.0
+    command: ["sleep", "infinity"]
+
+  training-service:
+    image: python:3.11-slim
+    command: ["sleep", "infinity"]
+
+  match-service:
+    image: python:3.11-slim
+    command: ["sleep", "infinity"]
+
+  schedule-service:
+    image: mcr.microsoft.com/dotnet/aspnet:8.0
+    command: ["sleep", "infinity"]
