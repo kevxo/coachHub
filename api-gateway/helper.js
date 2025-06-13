@@ -1,5 +1,6 @@
 import { services } from "./constants/service.js";
 import { createProxyMiddleware } from "http-proxy-middleware";
+import { authenticateToken } from "./middleware/auth.js";
 
 // Define rate limit constants
 const rateLimit = 20; //Max requests per minute
@@ -55,6 +56,9 @@ export const setupRateLimitAndProxying = (app) => {
             },
         };
 
+        if (route != '/auth') {
+            app.use(route, rateLimitAndTimeout, authenticateToken, createProxyMiddleware(proxyOptions))
+        }
         // Apply rate limiting and timeout middleware before proxying
         app.use(route, rateLimitAndTimeout, createProxyMiddleware(proxyOptions))
     });
